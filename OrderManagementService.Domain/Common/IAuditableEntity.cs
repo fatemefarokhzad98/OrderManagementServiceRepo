@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Common
 {
-   public abstract class BaseEntity<TKey> where TKey:struct
+   public interface IAuditableEntity
     {
-        public TKey Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
 
     }
 }

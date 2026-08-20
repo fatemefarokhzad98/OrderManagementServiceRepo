@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Common
 {
-   public abstract class AuditableEntity:BaseEntity
+    public interface IActivable
     {
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
-
+        public bool IsActive { get; set; } 
     }
 }

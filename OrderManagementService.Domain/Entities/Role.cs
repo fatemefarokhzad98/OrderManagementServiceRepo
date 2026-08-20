@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Entities
 {
-  public  class Role:BaseEntity
+    public class Role : BaseEntity<long>, IActivable
     {
-        public string Name { get; set; } = null!; 
+        public string Name { get; set; } = null!;
+        public bool IsActive { get; set; }
 
         #region Navigation Properties
-        public ICollection<UserRole> UserRoles { get; set; } = [];
+        public ICollection<User> Users { get; set; } = [];
 
         #endregion
 

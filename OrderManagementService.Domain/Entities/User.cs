@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Entities
 {
-    public class User : AuditableEntity
+    public class User : BaseEntity<long>,IAuditableEntity
     {
         #region Properties
         public string Username { get; set; } = null!;
@@ -15,10 +15,12 @@ namespace OrderManagementService.Domain.Entities
         public string PasswordHash { get; set; } = null!;
 
         public bool IsActive { get; set; } = true;
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         #endregion
 
         #region Navigation Properties
-        public ICollection<UserRole> UserRoles { get; set; } = [];
+        public ICollection<Role> Roles { get; set; } = [];
 
         #endregion
 

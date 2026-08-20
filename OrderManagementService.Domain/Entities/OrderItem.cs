@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Entities
 {
-   public class OrderItem:BaseEntity
+   public class OrderItem:BaseEntity<long>,IActivable
     {
         #region Properties
         public long OrderId { get; set; }
@@ -18,8 +18,11 @@ namespace OrderManagementService.Domain.Entities
 
         public decimal UnitPrice { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        public decimal TotalPrice => Quantity * UnitPrice;
+        public bool IsActive { get; set; }
+
         #endregion
+
         #region Navigation Properties
         public Order Order { get; set; } = null!;
 

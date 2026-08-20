@@ -7,23 +7,21 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Entities
 {
-   public class Customer : AuditableEntity
+   public class Customer :BaseEntity<long>, IAuditableEntity
     {
         #region Properties
         public string FirstName { get; set; } = null!;
-
         public string LastName { get; set; } = null!;
-
-        public string? Email { get; set; }
-
         public string PhoneNumber { get; set; } = null!;
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public bool IsActive { get; set; } = true;
         #endregion
 
 
         #region Navigation Properties
         public ICollection<Order> Orders { get; set; } = [];
+
 
         #endregion
 
