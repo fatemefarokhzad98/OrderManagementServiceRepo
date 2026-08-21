@@ -12,7 +12,7 @@ namespace OrderManagementService.Domain.Entities
         #region Properties
         public long ProductId { get; set; }
 
-        public int Quantity { get; set; }
+        public int Quantity { get; private set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public bool IsActive { get; set; }
@@ -21,5 +21,16 @@ namespace OrderManagementService.Domain.Entities
         public Product Product { get; set; } = null!;
        
         #endregion
+
+        public void ChangeQuantity(int qty)
+        {
+            if (qty < 0)
+                throw new Exception();
+
+            if (Quantity - qty < 0)
+                throw new Exception();
+
+            Quantity -= qty;
+        }
     }
 }
