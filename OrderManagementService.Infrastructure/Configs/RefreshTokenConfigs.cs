@@ -27,7 +27,7 @@ namespace OrderManagementService.Infrastructure.Configs
 
             builder.HasIndex(token => token.TokenHash)
                 .IsUnique();
-            //  
+         
             builder.HasIndex(token => new
             {
                 token.UserId,
