@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Infrastructure.EfCore
 {
-    public class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(options)
+    public sealed class MainDbContext(DbContextOptions<MainDbContext> options) : DbContext(options)
     {
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
@@ -18,10 +18,13 @@ namespace OrderManagementService.Infrastructure.EfCore
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
+
+            modelBuilder.Entity<IActivable>().HasQueryFilter(x => x.IsActive);
             base.OnModelCreating(modelBuilder);
         }
 
