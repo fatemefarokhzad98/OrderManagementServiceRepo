@@ -39,6 +39,7 @@ namespace OrderManagementService.Infrastructure.EfCore
                 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
 
             }
+            SeedData.Seed(modelBuilder);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
