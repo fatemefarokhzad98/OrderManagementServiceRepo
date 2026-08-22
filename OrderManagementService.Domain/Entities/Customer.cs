@@ -13,7 +13,7 @@ namespace OrderManagementService.Domain.Entities
         {
                 
         }
-        internal Customer(string firstName,string lastName,string phoneNumber)
+      public Customer(string firstName,string lastName,string phoneNumber)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -21,7 +21,7 @@ namespace OrderManagementService.Domain.Entities
         }
 
         #region Properties
-        public string FirstName { get; private set; } = null!;
+        public string FirstName { get; private  set; } = null!;
         public string LastName { get; private set; } = null!;
         public string PhoneNumber { get; private set; } = null!;
         public DateTime CreatedAt { get; set; }
@@ -35,16 +35,11 @@ namespace OrderManagementService.Domain.Entities
 
 
         #endregion
-        public void Update(
-           string firstName,
-           string lastName,
-           string phoneNumber)
+        public void Update(string firstName, string lastName, string phoneNumber)
         {
             FirstName = firstName;
             LastName = lastName;
             PhoneNumber = phoneNumber;
         }
-
-
     }
 }
