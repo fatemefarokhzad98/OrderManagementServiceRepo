@@ -11,4 +11,4 @@ namespace OrderManagementService.Application.DTOs.Role.Requests
         public bool IsActive { get; set; }
     }
 }
-}
+

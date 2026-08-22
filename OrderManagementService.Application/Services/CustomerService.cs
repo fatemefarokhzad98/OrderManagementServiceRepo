@@ -29,12 +29,7 @@ public sealed class CustomerService(IBaseRepository<Customer, long> customerRepo
             return OperationResult<long>.Failure(new Error("Customer.PhoneNumber.Duplicate", "مشتری دیگری با این شماره تلفن ثبت شده است."));
         }
 
-        var customer = new Customer
-        {
-            FirstName = request.FirstName.Trim(),
-            LastName = request.LastName.Trim(),
-            PhoneNumber = phoneNumber
-        };
+        var customer = new Customer(request.FirstName.Trim(), request.LastName.Trim(), phoneNumber);
 
         await _customerRepository.AddAsync(customer, cancellationToken);
 
@@ -115,10 +110,7 @@ public sealed class CustomerService(IBaseRepository<Customer, long> customerRepo
         if (duplicatePhone)
         
             return OperationResult.Failure(new Error("Customer.PhoneNumber.Duplicate", "مشتری دیگری با این شماره تلفن ثبت شده است."));
-
-        customer.FirstName = request.FirstName.Trim();
-        customer.LastName = request.LastName.Trim();
-        customer.PhoneNumber = phoneNumber;
+        customer.Update(request.FirstName.Trim(), request.LastName.Trim(), phoneNumber);
 
         var commitResult = await _unitOfWork.CommitAsync(cancellationToken);
         return commitResult.IsFailure ? OperationResult.Failure(commitResult.Error) : OperationResult.Success();
