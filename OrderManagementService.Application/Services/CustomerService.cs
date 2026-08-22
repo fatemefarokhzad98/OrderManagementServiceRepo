@@ -124,18 +124,21 @@ public sealed class CustomerService(IBaseRepository<Customer, long> customerRepo
         return commitResult.IsFailure ? OperationResult.Failure(commitResult.Error) : OperationResult.Success();
     }
 
+    #region Private Method
     private static OperationResult Validate(string firstName, string lastName, string phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             return OperationResult.Failure(new Error("Customer.Name.Required", "نام و نام خانوادگی الزامی است."));
-        
+
 
         if (string.IsNullOrWhiteSpace(phoneNumber))
             return OperationResult.Failure(new Error("Customer.PhoneNumber.Required", "شماره تلفن الزامی است."));
         if (phoneNumber.Trim().Length > 11)
-        
+
             return OperationResult.Failure(new Error("Customer.PhoneNumber.Invalid", "شماره تلفن معتبر نیست."));
 
         return OperationResult.Success();
     }
+
+    #endregion
 }

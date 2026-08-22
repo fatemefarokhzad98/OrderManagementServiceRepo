@@ -133,22 +133,20 @@ public sealed class ProductService(
     }
 
     #region Private Method
-
-    #endregion
     private static OperationResult Validate(string name, string? description, decimal price, int initialQuantity)
-     {
+    {
         if (string.IsNullOrWhiteSpace(name))
             return OperationResult.Failure(new Error("Product.Name.Required", "نام محصول الزامی است."));
 
         if (name.Trim().Length > 100)
-            return OperationResult.Failure(   new Error("Product.Name.Invalid", "نام محصول حداکثر ۱۰۰ کاراکتر است."));
+            return OperationResult.Failure(new Error("Product.Name.Invalid", "نام محصول حداکثر ۱۰۰ کاراکتر است."));
 
         if (description?.Trim().Length > 500)
-        
+
             return OperationResult.Failure(new Error("Product.Description.Invalid", "توضیحات حداکثر ۵۰۰ کاراکتر است."));
 
         if (price < 0)
-        
+
             return OperationResult.Failure(new Error("Product.Price.Invalid", "قیمت نمی‌تواند منفی باشد."));
 
         if (initialQuantity < 0)
@@ -156,4 +154,6 @@ public sealed class ProductService(
 
         return OperationResult.Success();
     }
+
+    #endregion
 }

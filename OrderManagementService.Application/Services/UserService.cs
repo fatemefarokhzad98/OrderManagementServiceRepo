@@ -121,8 +121,6 @@ public sealed class UserService(
     }
 
     #region Private Method
-
-    #endregion
     private async Task<OperationResult<IReadOnlyCollection<Role>>> LoadRolesAsync(IEnumerable<long> requestedRoleIds, CancellationToken cancellationToken)
     {
         var roleIds = requestedRoleIds
@@ -139,7 +137,7 @@ public sealed class UserService(
                     role.Id == roleId &&
                     role.IsActive, cancellationToken);
             if (role is null)
-            
+
                 return OperationResult<IReadOnlyCollection<Role>>.Failure(new Error("User.Role.NotFound", $"نقش فعال با شناسه {roleId} پیدا نشد."));
 
             roles.Add(role);
@@ -147,4 +145,6 @@ public sealed class UserService(
         return OperationResult<IReadOnlyCollection<Role>>.Success(roles.AsReadOnly());
 
     }
+
+    #endregion
 }
