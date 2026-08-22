@@ -16,7 +16,7 @@ namespace OrderManagementService.Infrastructure.Repository
 
         public Task<Order?> GetByIdWithItemsAsync(long orderId, CancellationToken cancellationToken = default)
         {
-            return _dbContext.Order
+            return _dbContext.Orders
                 .Include(order => order.OrderItems)
                 .SingleOrDefaultAsync(order => order.Id == orderId, cancellationToken);
         }
