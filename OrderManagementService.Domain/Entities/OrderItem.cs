@@ -1,44 +1,51 @@
 ﻿using OrderManagementService.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OrderManagementService.Domain.Entities
+namespace OrderManagementService.Domain.Entities;
+
+public sealed class OrderItem : BaseEntity<long>, IActivable
 {
-   public class OrderItem:BaseEntity<long>,IActivable
+    private OrderItem()
     {
-        private OrderItem() {  }
-        internal OrderItem(long orderId,
-            long productId,
-            int quantity,
-            decimal unitPrice)
-        {
-            OrderId = orderId;
-            ProductId = productId;
-            Quantity = quantity;
-            UnitPrice = unitPrice;
-        }
-        #region Properties
-        public long OrderId { get; private set; }
-
-        public long ProductId { get; private set; }
-
-        public int Quantity { get; set; }
-
-        public decimal UnitPrice { get; private set; }
-
-        public decimal TotalPrice => Quantity * UnitPrice;
-        public bool IsActive { get; set; }
-
-        #endregion
-
-        #region Navigation Properties
-        public Order Order { get; set; } = null!;
-
-        public Product Product { get; set; } = null!;
-        #endregion
-
     }
+    internal OrderItem(
+        Order order,
+        long productId,
+        int quantity,
+        decimal unitPrice)
+    {
+        ArgumentNullException.ThrowIfNull(order);
+
+        if (productId <= 0)
+            throw new ArgumentOutOfRangeException(nameof(productId), "شناسه محصول معتبر نیست.");
+
+        if (quantity <= 0)
+            throw new ArgumentOutOfRangeException(nameof(quantity), "تعداد محصول باید بیشتر از صفر باشد.");
+
+        if (unitPrice < 0)
+        
+            throw new ArgumentOutOfRangeException(nameof(unitPrice), "قیمت محصول نمی‌تواند منفی باشد.");
+
+        Order = order;
+        ProductId = productId;
+        Quantity = quantity;
+        UnitPrice = unitPrice;
+        IsActive = true;
+    }
+
+    public long OrderId { get; private set; }
+
+    public long ProductId { get; private set; }
+
+    public int Quantity { get; private set; }
+
+    public decimal UnitPrice { get; private set; }
+
+    public decimal TotalPrice =>
+        Quantity * UnitPrice;
+
+    public bool IsActive { get; set; }
+
+    public Order Order { get; private set; } = null!;
+
+    public Product Product { get; private set; } = null!;
 }

@@ -7,30 +7,49 @@ using System.Threading.Tasks;
 
 namespace OrderManagementService.Domain.Entities
 {
-    public class Inventory : BaseEntity<long>, IAuditableEntity, IActivable
+    public  class Inventory : BaseEntity<long>, IAuditableEntity, IActivable
     {
-        #region Properties
-        public long ProductId { get; set; }
+        private Inventory()
+        {
+        }
+
+        public Inventory(int initialQuantity)
+        {
+            if (initialQuantity < 0)
+            
+                throw new ArgumentOutOfRangeException(nameof(initialQuantity), "موجودی اولیه نمی‌تواند منفی باشد.");
+
+            Quantity = initialQuantity;
+        }
+
+        public long ProductId { get; private set; }
 
         public int Quantity { get; private set; }
+
+        public bool IsActive { get;  set; } = true;
+
         public DateTime CreatedAt { get; set; }
+
         public DateTime? UpdatedAt { get; set; }
-        public bool IsActive { get; set; }
-        #endregion
-        #region Navigation Property
+
         public Product Product { get; set; } = null!;
-       
-        #endregion
 
-        public void ChangeQuantity(int qty)
+        public void Increase(int quantity)
         {
-            if (qty < 0)
-                throw new Exception();
+            if (quantity <= 0)
+                throw new ArgumentOutOfRangeException(nameof(quantity), "مقدار افزایش باید بیشتر از صفر باشد.");
 
-            if (Quantity - qty < 0)
-                throw new Exception();
+            Quantity += quantity;
+        }
 
-            Quantity -= qty;
+        public void Decrease(int quantity)
+        {
+            if (quantity <= 0)
+                throw new ArgumentOutOfRangeException(nameof(quantity), "مقدار کاهش باید بیشتر از صفر باشد.");
+
+            if (Quantity < quantity)
+                throw new InvalidOperationException("موجودی محصول کافی نیست.");
+            Quantity -= quantity;
         }
     }
 }

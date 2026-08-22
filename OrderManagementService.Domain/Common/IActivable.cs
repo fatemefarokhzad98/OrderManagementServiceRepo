@@ -8,6 +8,6 @@ namespace OrderManagementService.Domain.Common
 {
     public interface IActivable
     {
-        public bool IsActive { get; set; } 
+        public bool IsActive { get;  } 
     }
 }

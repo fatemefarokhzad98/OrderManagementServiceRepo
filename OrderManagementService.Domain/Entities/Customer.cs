@@ -9,10 +9,21 @@ namespace OrderManagementService.Domain.Entities
 {
    public class Customer :BaseEntity<long>, IAuditableEntity
     {
+        private Customer()
+        {
+                
+        }
+        internal Customer(string firstName,string lastName,string phoneNumber)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
+
         #region Properties
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string PhoneNumber { get; set; } = null!;
+        public string FirstName { get; private set; } = null!;
+        public string LastName { get; private set; } = null!;
+        public string PhoneNumber { get; private set; } = null!;
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
@@ -24,6 +35,15 @@ namespace OrderManagementService.Domain.Entities
 
 
         #endregion
+        public void Update(
+           string firstName,
+           string lastName,
+           string phoneNumber)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+        }
 
 
     }
