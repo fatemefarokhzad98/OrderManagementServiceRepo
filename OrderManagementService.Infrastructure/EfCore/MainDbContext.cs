@@ -4,6 +4,7 @@ using OrderManagementService.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,11 +22,23 @@ namespace OrderManagementService.Infrastructure.EfCore
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
 
-            modelBuilder.Entity<IActivable>().HasQueryFilter(x => x.IsActive);
-            base.OnModelCreating(modelBuilder);
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (!typeof(IActivable).IsAssignableFrom(entityType.ClrType))
+
+                   continue;
+                
+                var parameter = Expression.Parameter(entityType.ClrType, "entity");
+
+                var isActiveProperty = Expression.Property(parameter, nameof(IActivable.IsActive));
+
+                var filter = Expression.Lambda(isActiveProperty, parameter);
+                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
+
+            }
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
